@@ -18,34 +18,44 @@ class AppRoot extends StatelessWidget {
   }
 }
 
-class TransferForm extends StatelessWidget {
+class TransferForm extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return TransferFormState();
+  }
+}
+
+class TransferFormState extends State<TransferForm> {
   final TextEditingController _accountNumberController =
       new TextEditingController();
   final TextEditingController _valueController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
           title: Text("New transfer"),
         ),
-        body: Column(
-          children: <Widget>[
-            Editor(
-              controller: _accountNumberController,
-              label: "Account Number",
-              hint: "00000",
-            ),
-            Editor(
-                controller: _valueController,
-                label: "Transfer Value",
-                hint: "000",
-                icon: Icons.monetization_on),
-            ElevatedButton(
-                child: Text("Transfer!"),
-                onPressed: () {
-                  _createTransfer(context);
-                }),
-          ],
+        body: SingleChildScrollView(
+          child: Column(
+            children: <Widget>[
+              Editor(
+                controller: _accountNumberController,
+                label: "Account Number",
+                hint: "00000",
+              ),
+              Editor(
+                  controller: _valueController,
+                  label: "Transfer Value",
+                  hint: "000",
+                  icon: Icons.monetization_on),
+              ElevatedButton(
+                  child: Text("Transfer!"),
+                  onPressed: () {
+                    _createTransfer(context);
+                  }),
+            ],
+          ),
         ));
   }
 
@@ -93,9 +103,16 @@ class Editor extends StatelessWidget {
   }
 }
 
-class TransferList extends StatelessWidget {
+class TransferList extends StatefulWidget {
   final List<Transfer> _transfers = [];
 
+  @override
+  State<StatefulWidget> createState() {
+    return TransferListState();
+  }
+}
+
+class TransferListState extends State<TransferList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,9 +120,10 @@ class TransferList extends StatelessWidget {
         title: Text("Transfers"),
       ),
       body: ListView.builder(
-        itemCount: _transfers.length,
+        itemCount: widget._transfers.length,
         itemBuilder: (context, index) {
-          Transfer transfer = _transfers[index];
+          Transfer transfer = widget._transfers[index];
+          debugPrint("ASDASD $transfer");
           return TransferItem(transfer);
         },
       ),
@@ -114,7 +132,14 @@ class TransferList extends StatelessWidget {
         onPressed: () {
           final Future future = Navigator.pushNamed(context, '/new');
           future.then((receivedTransfer) {
-            debugPrint('Received: $receivedTransfer');
+            if (receivedTransfer != null) {
+              debugPrint('Adding to List: $receivedTransfer');
+              setState(() {
+                widget._transfers.add(receivedTransfer);
+              });
+            }
+            var aaa = widget._transfers.length;
+            debugPrint('List size: $aaa');
           });
         },
       ),
