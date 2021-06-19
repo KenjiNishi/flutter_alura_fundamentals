@@ -27,28 +27,16 @@ class TransferForm extends StatelessWidget {
         ),
         body: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextField(
+            Editor(
                 controller: _accountNumberController,
-                style: TextStyle(fontSize: 24.0),
-                decoration: InputDecoration(
-                    labelText: 'Account Number', hintText: '0000'),
-                keyboardType: TextInputType.number,
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: TextField(
+                label: "Account Number",
+                hint: "00000",
+                icon: Icons.arrow_forward_ios),
+            Editor(
                 controller: _valueController,
-                style: TextStyle(fontSize: 24.0),
-                decoration: InputDecoration(
-                    icon: Icon(Icons.monetization_on),
-                    labelText: 'Value to transfer',
-                    hintText: '999'),
-                keyboardType: TextInputType.number,
-              ),
-            ),
+                label: "Transfer Value",
+                hint: "000",
+                icon: Icons.monetization_on),
             ElevatedButton(
                 child: Text("Transfer!"),
                 onPressed: () {
@@ -67,6 +55,33 @@ class TransferForm extends StatelessWidget {
                 }),
           ],
         ));
+  }
+}
+
+class Editor extends StatelessWidget {
+  final TextEditingController controller;
+  final String label;
+  final String hint;
+  final IconData icon;
+
+  Editor(
+      {required this.controller,
+      required this.label,
+      required this.hint,
+      this.icon = Icons.subdirectory_arrow_right});
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
+      child: TextField(
+        controller: controller,
+        style: TextStyle(fontSize: 24.0),
+        decoration:
+            InputDecoration(labelText: label, hintText: hint, icon: Icon(icon)),
+        keyboardType: TextInputType.number,
+      ),
+    );
   }
 }
 
