@@ -8,9 +8,12 @@ class AppRoot extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: Scaffold(
-        body: TransferForm(),
-      ),
+      title: 'Alura Fundamentals',
+      initialRoute: '/',
+      routes: {
+        '/': (context) => TransferList(),
+        '/new': (context) => TransferForm(),
+      },
     );
   }
 }
@@ -46,14 +49,15 @@ class TransferForm extends StatelessWidget {
         ));
   }
 
-  void _createTransfer(context) {
+  void _createTransfer(BuildContext context) {
     final value = int.tryParse(_valueController.text);
     final String account = _accountNumberController.text;
     if (value != null) {
       final createdTransfer = Transfer(value, account);
+      Navigator.pop(context, createdTransfer);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('$createdTransfer'),
+          content: Text('Created transfer: $createdTransfer'),
         ),
       );
     }
@@ -90,22 +94,29 @@ class Editor extends StatelessWidget {
 }
 
 class TransferList extends StatelessWidget {
+  final List<Transfer> _transfers = [];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: Text("Transfers"),
       ),
-      body: Column(
-        children: <Widget>[
-          TransferItem(Transfer(105, "12356")),
-          TransferItem(Transfer(210, "12356")),
-          TransferItem(Transfer(420, "12356")),
-        ],
+      body: ListView.builder(
+        itemCount: _transfers.length,
+        itemBuilder: (context, index) {
+          Transfer transfer = _transfers[index];
+          return TransferItem(transfer);
+        },
       ),
       floatingActionButton: FloatingActionButton(
         child: Icon(Icons.add),
-        onPressed: () => {},
+        onPressed: () {
+          final Future future = Navigator.pushNamed(context, '/new');
+          future.then((receivedTransfer) {
+            debugPrint('Received: $receivedTransfer');
+          });
+        },
       ),
     );
   }
