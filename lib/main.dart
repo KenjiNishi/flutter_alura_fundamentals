@@ -28,10 +28,10 @@ class TransferForm extends StatelessWidget {
         body: Column(
           children: <Widget>[
             Editor(
-                controller: _accountNumberController,
-                label: "Account Number",
-                hint: "00000",
-                icon: Icons.arrow_forward_ios),
+              controller: _accountNumberController,
+              label: "Account Number",
+              hint: "00000",
+            ),
             Editor(
                 controller: _valueController,
                 label: "Transfer Value",
@@ -62,13 +62,13 @@ class Editor extends StatelessWidget {
   final TextEditingController controller;
   final String label;
   final String hint;
-  final IconData icon;
+  final IconData? icon;
 
   Editor(
       {required this.controller,
       required this.label,
       required this.hint,
-      this.icon = Icons.subdirectory_arrow_right});
+      this.icon});
 
   @override
   Widget build(BuildContext context) {
@@ -77,8 +77,10 @@ class Editor extends StatelessWidget {
       child: TextField(
         controller: controller,
         style: TextStyle(fontSize: 24.0),
-        decoration:
-            InputDecoration(labelText: label, hintText: hint, icon: Icon(icon)),
+        decoration: InputDecoration(
+            labelText: label,
+            hintText: hint,
+            icon: icon != null ? Icon(icon) : null),
         keyboardType: TextInputType.number,
       ),
     );
