@@ -1,16 +1,53 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  runApp(Column(
-    children: const <Widget>[
-      Text(
-        'My first Flutter app',
-        textDirection: TextDirection.ltr,
+  runApp(MaterialApp(
+    home: Scaffold(
+      body: TransferList(),
+      appBar: AppBar(
+        title: Text("Transfers"),
       ),
-      Text(
-        'Craft beautiful UIs',
-        textDirection: TextDirection.ltr,
+      floatingActionButton: FloatingActionButton(
+        child: Icon(Icons.add),
+        onPressed: () => {},
       ),
-    ],
+    ),
   ));
+}
+
+class TransferList extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: <Widget>[
+        TransferItem(Transfer(105, "12356")),
+        TransferItem(Transfer(210, "12356")),
+        TransferItem(Transfer(420, "12356")),
+      ],
+    );
+  }
+}
+
+class TransferItem extends StatelessWidget {
+  final Transfer _transfer;
+
+  TransferItem(this._transfer);
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      child: ListTile(
+        leading: Icon(Icons.monetization_on),
+        title: Text(_transfer.value.toString()),
+        subtitle: Text(_transfer.accountNumber),
+      ),
+    );
+  }
+}
+
+class Transfer {
+  final int value;
+  final String accountNumber;
+
+  Transfer(this.value, this.accountNumber);
 }
