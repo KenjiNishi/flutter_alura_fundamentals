@@ -40,21 +40,23 @@ class TransferForm extends StatelessWidget {
             ElevatedButton(
                 child: Text("Transfer!"),
                 onPressed: () {
-                  debugPrint("Transfer button pressed!");
-                  final value = int.tryParse(_valueController.text);
-                  final String account = _accountNumberController.text;
-                  if (value != null) {
-                    final createdTransfer = Transfer(value, account);
-                    debugPrint('$createdTransfer');
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('$createdTransfer'),
-                      ),
-                    );
-                  }
+                  _createTransfer(context);
                 }),
           ],
         ));
+  }
+
+  void _createTransfer(context) {
+    final value = int.tryParse(_valueController.text);
+    final String account = _accountNumberController.text;
+    if (value != null) {
+      final createdTransfer = Transfer(value, account);
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('$createdTransfer'),
+        ),
+      );
+    }
   }
 }
 
