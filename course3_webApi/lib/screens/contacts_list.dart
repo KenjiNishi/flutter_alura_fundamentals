@@ -3,6 +3,7 @@ import 'package:course2_sqflite/component/loading_component.dart';
 import 'package:course2_sqflite/dao/contact_dao.dart';
 import 'package:course2_sqflite/models/contact.dart';
 import 'package:course2_sqflite/screens/contacts_form.dart';
+import 'package:course2_sqflite/screens/transaction_form.dart';
 import 'package:flutter/material.dart';
 
 class ContactsList extends StatefulWidget {
@@ -39,7 +40,13 @@ class ContactsListState extends State<ContactsList> {
               return ListView.builder(
                 itemBuilder: (context, index) {
                   final Contact contact = contacts[index];
-                  return ContactItem(contact);
+                  return ContactItem(
+                    contact,
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => TransactionForm(contact)));
+                    },
+                  );
                 },
                 itemCount: contacts.length,
               );

@@ -20,7 +20,7 @@ Future<List<Transaction>> findAll() async {
       final Map<String, dynamic> elementContact = element['contact'];
       final Transaction transaction = Transaction(
         element['value'],
-        Contact(0, elementContact['value'], elementContact['accountNumber']),
+        Contact(0, elementContact['name'], elementContact['accountNumber']),
       );
       transactions.add(transaction);
     }
@@ -28,4 +28,36 @@ Future<List<Transaction>> findAll() async {
   } else {
     throw Exception("Error while fetching. \n ${response.body}");
   }
+}
+
+Future<Transaction> save(Transaction transaction) async {
+  final Uri uri = Uri.parse('http://192.168.15.6:8080/transactions');
+  final Map<String, dynamic> transactionMap = {
+    'value': transaction.value,
+    'contact': {
+      'name': transaction.contact.name,
+      'accountNumber': transaction.contact.accountNumber,
+    },
+  };
+
+  final Response response =
+      await InterceptedHttp.build(interceptors: [LoggingInterceptor()]).post(
+    uri,
+    body: json.encode(transactionMap),
+    headers: {
+      'Content-type': 'application/json',
+      'password': '1000',
+    },
+  );
+
+  final Map<String, dynamic> decoded = json.decode(response.body);
+  final Map<String, dynamic> elementContact = decoded['contact'];
+  return Transaction(
+    decoded['value'],
+    Contact(
+      0,
+      elementContact['name'],
+      elementContact['accountNumber'],
+    ),
+  );
 }
