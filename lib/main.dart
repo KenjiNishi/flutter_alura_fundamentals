@@ -9,6 +9,12 @@ class AppRoot extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Alura Fundamentals',
+      theme: ThemeData(
+          primaryColor: Colors.green[900],
+          accentColor: Colors.blueAccent[420],
+          buttonTheme: ButtonThemeData(
+              buttonColor: Colors.blueAccent[600],
+              textTheme: ButtonTextTheme.primary)),
       initialRoute: '/',
       routes: {
         '/': (context) => TransferList(),
