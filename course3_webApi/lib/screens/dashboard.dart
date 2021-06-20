@@ -1,4 +1,6 @@
+import 'package:course2_sqflite/component/feature_item.dart';
 import 'package:course2_sqflite/screens/contacts_list.dart';
+import 'package:course2_sqflite/screens/transactions_list.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatelessWidget {
@@ -14,43 +16,30 @@ class Dashboard extends StatelessWidget {
             padding: const EdgeInsets.all(8),
             child: Image.asset('images/bytebank_logo.png'),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8),
-            child: Material(
-              color: Theme.of(context).primaryColor,
-              child: InkWell(
-                onTap: () {
-                  Navigator.of(context).push(
-                      MaterialPageRoute(builder: (context) => ContactsList()));
-                },
-                child: Container(
-                  padding: EdgeInsets.all(8),
-                  height: 80,
-                  width: 140,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Icon(
-                        Icons.people,
-                        color: Colors.black,
-                        size: 38,
-                      ),
-                      Text(
-                        'Contacts',
-                        style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                        ),
-                      ),
-                    ],
-                  ),
+          SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                FeatureItem(
+                  'Transfer',
+                  Icons.monetization_on,
+                  onTap: () => _navigateTo(context, ContactsList()),
                 ),
-              ),
+                FeatureItem(
+                  'Transaction Feed',
+                  Icons.description,
+                  onTap: () => _navigateTo(context, TransactionsList()),
+                ),
+              ],
             ),
           )
         ],
       ),
     );
   }
+}
+
+void _navigateTo(context, Widget component) {
+  Navigator.of(context)
+      .push(MaterialPageRoute(builder: (context) => component));
 }
