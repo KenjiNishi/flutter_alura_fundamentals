@@ -1,9 +1,7 @@
-import 'package:course2_sqflite/http/webclient.dart';
 import 'package:course2_sqflite/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 
 void main() {
-  findAll();
   runApp(MyApp());
 }
 
