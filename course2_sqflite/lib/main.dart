@@ -1,6 +1,5 @@
+import 'package:course2_sqflite/screens/dashboard.dart';
 import 'package:flutter/material.dart';
-
-import 'pages/Dashboard.dart';
 
 void main() {
   runApp(MyApp());
