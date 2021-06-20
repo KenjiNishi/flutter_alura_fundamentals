@@ -1,6 +1,6 @@
 import 'package:course2_sqflite/component/contact_item.dart';
 import 'package:course2_sqflite/component/loading_component.dart';
-import 'package:course2_sqflite/database/app_database.dart';
+import 'package:course2_sqflite/dao/contact_dao.dart';
 import 'package:course2_sqflite/models/contact.dart';
 import 'package:course2_sqflite/screens/contacts_form.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +13,7 @@ class ContactsList extends StatefulWidget {
 }
 
 class ContactsListState extends State<ContactsList> {
+  final ContactDao contactDao = ContactDao();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +23,7 @@ class ContactsListState extends State<ContactsList> {
       body: FutureBuilder<List<Contact>>(
         initialData: [],
         //future: Future.delayed(Duration(seconds: 1)).then((value) => findAll()),
-        future: findAll(),
+        future: contactDao.findAll(),
         builder: (context, snapshot) {
           switch (snapshot.connectionState) {
             case ConnectionState.none:
