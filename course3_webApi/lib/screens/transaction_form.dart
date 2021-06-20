@@ -14,6 +14,7 @@ class TransactionForm extends StatefulWidget {
 
 class _TransactionFormState extends State<TransactionForm> {
   final TextEditingController _valueController = TextEditingController();
+  final TransferWebClient _transferWebClient = TransferWebClient();
 
   @override
   Widget build(BuildContext context) {
@@ -63,7 +64,9 @@ class _TransactionFormState extends State<TransactionForm> {
                           double.tryParse(_valueController.text);
                       final transactionCreated = Transaction(
                           value != null ? value : 0, widget.contact);
-                      save(transactionCreated).then((transaction) {
+                      _transferWebClient
+                          .save(transactionCreated)
+                          .then((transaction) {
                         Navigator.pop(context);
                       });
                     },

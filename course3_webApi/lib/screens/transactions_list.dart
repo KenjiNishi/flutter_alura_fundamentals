@@ -5,6 +5,7 @@ import 'package:course2_sqflite/models/transaction.dart';
 import 'package:flutter/material.dart';
 
 class TransactionsList extends StatelessWidget {
+  final TransferWebClient _transferWebClient = TransferWebClient();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -12,7 +13,7 @@ class TransactionsList extends StatelessWidget {
           title: Text('Transactions'),
         ),
         body: FutureBuilder<List<Transaction>>(
-          future: findAll(),
+          future: _transferWebClient.findAll(),
           builder: (context, snapshot) {
             switch (snapshot.connectionState) {
               case ConnectionState.none:
@@ -25,7 +26,6 @@ class TransactionsList extends StatelessWidget {
                 if (snapshot.hasData) {
                   final List<Transaction> transactions =
                       snapshot.data as List<Transaction>;
-
                   if (transactions.isNotEmpty) {
                     return ListView.builder(
                       itemBuilder: (context, index) {
@@ -55,7 +55,7 @@ class TransactionsList extends StatelessWidget {
                 }
 
                 return CenteredMessage(
-                  "No transactions received from server.",
+                  "Empty list received.",
                   icon: Icons.error,
                 );
             }
