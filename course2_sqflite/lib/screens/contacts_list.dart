@@ -5,7 +5,14 @@ import 'package:course2_sqflite/models/contact.dart';
 import 'package:course2_sqflite/screens/contacts_form.dart';
 import 'package:flutter/material.dart';
 
-class ContactsList extends StatelessWidget {
+class ContactsList extends StatefulWidget {
+  @override
+  State<StatefulWidget> createState() {
+    return ContactsListState();
+  }
+}
+
+class ContactsListState extends State<ContactsList> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,13 +50,11 @@ class ContactsList extends StatelessWidget {
         onPressed: () {
           Navigator.of(context)
               .push(
-            MaterialPageRoute(
-              builder: (context) => ContactForm(),
-            ),
-          )
-              .then((newContact) {
-            debugPrint(newContact.toString());
-          });
+                MaterialPageRoute(
+                  builder: (context) => ContactForm(),
+                ),
+              )
+              .then((value) => setState(() {}));
         },
         child: Icon(Icons.add),
       ),

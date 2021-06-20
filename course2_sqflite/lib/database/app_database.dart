@@ -14,6 +14,7 @@ Future<Database> createDatabase() {
             'account_number INTEGER)');
       },
       version: 1,
+      onDowngrade: onDatabaseDowngradeDelete,
     );
   });
 }

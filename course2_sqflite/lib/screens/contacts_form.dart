@@ -1,3 +1,4 @@
+import 'package:course2_sqflite/database/app_database.dart';
 import 'package:course2_sqflite/models/contact.dart';
 import 'package:flutter/material.dart';
 
@@ -45,7 +46,7 @@ class _ContactFormState extends State<ContactForm> {
                       final accNum =
                           int.tryParse(_accountNumberController.text);
                       final Contact newContact = Contact(0, name, accNum!);
-                      Navigator.pop(context, newContact);
+                      save(newContact).then((id) => Navigator.pop(context));
                     },
                     child: Text('Create')),
               ),
