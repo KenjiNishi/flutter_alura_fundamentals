@@ -1,11 +1,10 @@
+import 'package:course2_sqflite/http/webclient.dart';
 import 'package:course2_sqflite/screens/dashboard.dart';
 import 'package:flutter/material.dart';
 
 void main() {
+  findAll();
   runApp(MyApp());
-  // save(Contact(0, 'name', 1323)).then((id) {
-  //   findAll().then((contacts) => debugPrint(contacts.toString()));
-  // });
 }
 
 class MyApp extends StatelessWidget {
