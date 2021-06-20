@@ -1,4 +1,4 @@
-import 'package:course2_sqflite/screens/dashboard.dart';
+import 'package:course2_sqflite/screens/contacts_form.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
           textTheme: ButtonTextTheme.primary,
         ),
       ),
-      home: Dashboard(),
+      home: ContactForm(),
     );
   }
 }
