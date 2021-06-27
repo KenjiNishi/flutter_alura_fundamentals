@@ -6,8 +6,7 @@ import 'package:http/http.dart';
 
 class TransactionWebClient {
   Future<List<Transaction>> findAll() async {
-    final Response response =
-        await client.get(baseUrl).timeout(Duration(seconds: 5));
+    final Response response = await client.get(baseUrl);
     final List<dynamic> decodedJson = jsonDecode(response.body);
     return decodedJson
         .map((dynamic json) => Transaction.fromJson(json))
@@ -24,18 +23,20 @@ class TransactionWebClient {
         },
         body: transactionJson);
 
-    if (response.statusCode == 200) {}
+    if (response.statusCode == 200) {
+      return Transaction.fromJson(jsonDecode(response.body));
+    }
 
-    _throwError(response.statusCode);
-    return Transaction.fromJson(jsonDecode(response.body));
-  }
-
-  void _throwError(int statusCode) {
-    throw Exception(_statusCodeResponses[statusCode]);
+    throw HttpException(_statusCodeResponses[response.statusCode]);
   }
 
   static final Map<int, String> _statusCodeResponses = {
     400: 'There was an error while submitting the transfer!',
     401: 'Invalid password! ',
   };
+}
+
+class HttpException implements Exception {
+  final String message;
+  HttpException(this.message);
 }
