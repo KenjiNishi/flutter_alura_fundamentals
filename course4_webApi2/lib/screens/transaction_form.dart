@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:bytebank/components/progress.dart';
 import 'package:bytebank/components/response_dialog.dart';
 import 'package:bytebank/components/transaction_auth_dialog.dart';
 import 'package:bytebank/http/webclients/transaction_webclient.dart';
@@ -22,6 +23,7 @@ class _TransactionFormState extends State<TransactionForm> {
   final TransactionWebClient _webClient = TransactionWebClient();
   final String transactionId = Uuid().v4();
 
+  bool _sending = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +36,13 @@ class _TransactionFormState extends State<TransactionForm> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: <Widget>[
+              Visibility(
+                child: Padding(
+                  padding: const EdgeInsets.all(8),
+                  child: Progress(message: 'Sending...'),
+                ),
+                visible: _sending,
+              ),
               Text(
                 widget.contact.name,
                 style: TextStyle(
@@ -99,11 +108,16 @@ class _TransactionFormState extends State<TransactionForm> {
     String password,
     BuildContext context,
   ) async {
+    setState(() {
+      _sending = true;
+    });
     Transaction transaction = await _send(
       transactionCreated,
       password,
       context,
-    );
+    ).whenComplete(() => setState(() {
+          _sending = false;
+        }));
     if (transaction != null) {
       await showDialog(
           context: context,
