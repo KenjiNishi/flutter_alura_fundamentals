@@ -1,4 +1,3 @@
-import 'package:bytebank/models/balance.dart';
 import 'package:bytebank/screens/dashboard/balanceCard.dart';
 import 'package:flutter/material.dart';
 
@@ -15,7 +14,7 @@ class _DashboardState extends State<Dashboard> {
         title: Text('Bytebank'),
       ),
       body: Align(
-        child: BalanceCard(Balance(420.00)),
+        child: BalanceCard(),
         alignment: Alignment.topCenter,
       ),
     );
