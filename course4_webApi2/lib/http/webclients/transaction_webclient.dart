@@ -27,12 +27,20 @@ class TransactionWebClient {
       return Transaction.fromJson(jsonDecode(response.body));
     }
 
-    throw HttpException(_statusCodeResponses[response.statusCode]);
+    throw HttpException(_getMessage(response.statusCode));
+  }
+
+  String _getMessage(int statusCode) {
+    if (_statusCodeResponses.containsKey(statusCode)) {
+      return _statusCodeResponses[statusCode];
+    }
+    return 'Error $statusCode not mapped !!!';
   }
 
   static final Map<int, String> _statusCodeResponses = {
     400: 'There was an error while submitting the transfer!',
     401: 'Invalid password! ',
+    409: 'Transaction already exists!',
   };
 }
 
