@@ -24,6 +24,18 @@ class TransactionWebClient {
         },
         body: transactionJson);
 
+    if (response.statusCode == 200) {}
+
+    _throwError(response.statusCode);
     return Transaction.fromJson(jsonDecode(response.body));
   }
+
+  void _throwError(int statusCode) {
+    throw Exception(_statusCodeResponses[statusCode]);
+  }
+
+  static final Map<int, String> _statusCodeResponses = {
+    400: 'There was an error while submitting the transfer!',
+    401: 'Invalid password! ',
+  };
 }
