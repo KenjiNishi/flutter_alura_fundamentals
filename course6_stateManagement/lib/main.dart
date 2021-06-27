@@ -1,10 +1,14 @@
 import 'package:bytebank/models/balance.dart';
+import 'package:bytebank/models/transfers.dart';
 import 'package:bytebank/screens/transferencia/lista.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-void main() => runApp(ChangeNotifierProvider(
-      create: (context) => Balance(0),
+void main() => runApp(MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (context) => Balance(8)),
+        ChangeNotifierProvider(create: (context) => Transfers()),
+      ],
       child: BytebankApp(),
     ));
 

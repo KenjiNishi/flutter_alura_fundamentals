@@ -1,6 +1,9 @@
 import 'package:bytebank/components/editor.dart';
+import 'package:bytebank/models/balance.dart';
 import 'package:bytebank/models/transferencia.dart';
+import 'package:bytebank/models/transfers.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 const _tituloAppBar = 'Criando Transferência';
 
@@ -12,14 +15,7 @@ const _dicaCampoNumeroConta = '0000';
 
 const _textoBotaoConfirmar = 'Confirmar';
 
-class FormularioTransferencia extends StatefulWidget {
-  @override
-  State<StatefulWidget> createState() {
-    return FormularioTransferenciaState();
-  }
-}
-
-class FormularioTransferenciaState extends State<FormularioTransferencia> {
+class FormularioTransferencia extends StatelessWidget {
   final TextEditingController _controladorCampoNumeroConta =
       TextEditingController();
   final TextEditingController _controladorCampoValor = TextEditingController();
@@ -56,9 +52,21 @@ class FormularioTransferenciaState extends State<FormularioTransferencia> {
   void _criaTransferencia(BuildContext context) {
     final int numeroConta = int.tryParse(_controladorCampoNumeroConta.text);
     final double valor = double.tryParse(_controladorCampoValor.text);
-    if (numeroConta != null && valor != null) {
+    if (_validaTransferencia(context, numeroConta, valor)) {
       final transferenciaCriada = Transferencia(valor, numeroConta);
-      Navigator.pop(context, transferenciaCriada);
+      _atualizaEstado(context, transferenciaCriada, valor);
+      Navigator.pop(context);
     }
+  }
+
+  bool _validaTransferencia(context, int numeroConta, double valor) {
+    final _saldoSuficiente =
+        valor <= Provider.of<Balance>(context, listen: false).value;
+    return numeroConta != null && valor != null && _saldoSuficiente;
+  }
+
+  _atualizaEstado(context, novaTransferencia, valor) {
+    Provider.of<Transfers>(context, listen: false).add(novaTransferencia);
+    Provider.of<Balance>(context, listen: false).subtract(valor);
   }
 }

@@ -1,5 +1,6 @@
 import 'package:bytebank/screens/dashboard/balanceCard.dart';
 import 'package:bytebank/screens/deposit/form.dart';
+import 'package:bytebank/screens/transferencia/formulario.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -8,6 +9,18 @@ class Dashboard extends StatefulWidget {
 }
 
 class _DashboardState extends State<Dashboard> {
+  Color getColor(Set<MaterialState> states) {
+    const Set<MaterialState> interactiveStates = {
+      MaterialState.pressed,
+      MaterialState.hovered,
+      MaterialState.focused,
+    };
+    if (states.any(interactiveStates.contains)) {
+      return Colors.blue;
+    }
+    return Colors.green;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,13 +33,36 @@ class _DashboardState extends State<Dashboard> {
               alignment: Alignment.topCenter,
               child: BalanceCard(),
             ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return DepositForm();
-                }));
-              },
-              child: Text('Receive deposit'),
+            ButtonBar(
+              alignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return DepositForm();
+                    }));
+                  },
+                  child: Text('Receive deposit'),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.resolveWith(getColor),
+                  ),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) {
+                      return FormularioTransferencia();
+                    }));
+                  },
+                  child: Text('New transfer'),
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.resolveWith(getColor),
+                  ),
+                )
+              ],
             ),
           ],
         ));
