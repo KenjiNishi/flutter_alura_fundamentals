@@ -1,0 +1,23 @@
+import 'package:bytebank/models/balance.dart';
+import 'package:bytebank/screens/dashboard/balanceCard.dart';
+import 'package:flutter/material.dart';
+
+class Dashboard extends StatefulWidget {
+  @override
+  _DashboardState createState() => _DashboardState();
+}
+
+class _DashboardState extends State<Dashboard> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Bytebank'),
+      ),
+      body: Align(
+        child: BalanceCard(Balance(420.00)),
+        alignment: Alignment.topCenter,
+      ),
+    );
+  }
+}
