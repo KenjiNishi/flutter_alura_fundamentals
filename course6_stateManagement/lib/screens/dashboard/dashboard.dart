@@ -1,6 +1,7 @@
 import 'package:bytebank/screens/dashboard/balanceCard.dart';
 import 'package:bytebank/screens/deposit/form.dart';
 import 'package:bytebank/screens/transferencia/formulario.dart';
+import 'package:bytebank/screens/transferencia/ultimas.dart';
 import 'package:flutter/material.dart';
 
 class Dashboard extends StatefulWidget {
@@ -61,9 +62,10 @@ class _DashboardState extends State<Dashboard> {
                     backgroundColor:
                         MaterialStateProperty.resolveWith(getColor),
                   ),
-                )
+                ),
               ],
             ),
+            UltimasTransferencias(),
           ],
         ));
   }
