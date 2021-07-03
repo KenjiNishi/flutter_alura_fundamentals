@@ -12,34 +12,29 @@ class DashboardContainer extends BlocContainer {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (_) => NameCubit('name'),
-      child: Dashboard(),
+      child: I18NLoadingContainer(
+        (messages) => DashboardView(DashboardViewLazyI18N(messages)),
+      ),
     );
   }
 }
 
-class DashboardViewI18N extends ViewI18N {
-  DashboardViewI18N(BuildContext context) : super(context);
+class DashboardViewLazyI18N {
+  final I18NMessages messages;
+  DashboardViewLazyI18N(this.messages);
 
-  String get transfer => localize({
-        "pt-br": "Transferir",
-        "en": "Transfer",
-      });
+  String get transfer => messages.get("transfer");
 
-  String get transactionFeed => localize({
-        "pt-br": "Transações",
-        "en": "Transaction Feed",
-      });
+  String get transactionFeed => messages.get("transaction_feed");
 
-  String get changeName => localize({
-        "pt-br": "Trocar Nome",
-        "en": "Change Name",
-      });
+  String get changeName => messages.get("change_name");
 }
 
-class Dashboard extends StatelessWidget {
+class DashboardView extends StatelessWidget {
+  final DashboardViewLazyI18N _i18n;
+  DashboardView(this._i18n);
   @override
   Widget build(BuildContext context) {
-    final i18n = DashboardViewI18N(context);
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
@@ -60,17 +55,17 @@ class Dashboard extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               children: <Widget>[
                 _FeatureItem(
-                  i18n.transfer,
+                  _i18n.transfer,
                   Icons.monetization_on,
                   onClick: () => _showContactsList(context),
                 ),
                 _FeatureItem(
-                  i18n.transactionFeed,
+                  _i18n.transactionFeed,
                   Icons.description,
                   onClick: () => _showTransactionsList(context),
                 ),
                 _FeatureItem(
-                  i18n.changeName,
+                  _i18n.changeName,
                   Icons.person_outline,
                   onClick: () => _showChangeName(context),
                 ),
