@@ -25,6 +25,8 @@ class ViewI18N {
   }
 
   String localize(Map<String, String> values) {
+    assert(values != null);
+    assert(values.containsKey(_language));
     return values[_language];
   }
 }
