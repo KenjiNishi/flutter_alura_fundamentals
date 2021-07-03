@@ -7,4 +7,4 @@ final Client client = InterceptedClient.build(
     interceptors: [LoggingInterceptor()], requestTimeout: Duration(seconds: 5));
 
 const String uri = 'http://192.168.58.1:8080/transactions';
-final Uri baseUrl = Uri.parse(uri);
+final Uri messagesUrl = Uri.parse(uri);
