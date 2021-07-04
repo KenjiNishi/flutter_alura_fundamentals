@@ -13,7 +13,9 @@ import '../mocks/mocks.dart';
 void main() {
   testWidgets("Should save a contact", (tester) async {
     final mockContactDao = MockContactDao();
+    final mockTransactionWC = MockTransactionWC();
     await tester.pumpWidget(BytebankApp(
+      transactionWebClient: mockTransactionWC,
       contactDao: mockContactDao,
     ));
     final dashboard = find.byType(Dashboard);
@@ -39,13 +41,13 @@ void main() {
     expect(contactForm, findsOneWidget);
 
     final nameTextField = find.byWidgetPredicate((widget) {
-      return _textFieldMatcher(widget, 'Full Name');
+      return textFieldByLabelMatcher(widget, 'Full Name');
     });
     expect(nameTextField, findsOneWidget);
     await tester.enterText(nameTextField, 'Joseph');
 
     final accNumberTextField = find.byWidgetPredicate((widget) {
-      return _textFieldMatcher(widget, 'Account Number');
+      return textFieldByLabelMatcher(widget, 'Account Number');
     });
     expect(accNumberTextField, findsOneWidget);
     await tester.enterText(accNumberTextField, '1000');
@@ -63,11 +65,4 @@ void main() {
 
     verify(mockContactDao.findAll()).called(1);
   });
-}
-
-bool _textFieldMatcher(Widget widget, String labelText) {
-  if (widget is TextField) {
-    return widget.decoration.labelText == labelText;
-  }
-  return false;
 }
